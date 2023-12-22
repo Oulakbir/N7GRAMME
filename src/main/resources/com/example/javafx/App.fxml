@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="484.0" prefWidth="658.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.Controller">
+   <top>
+      <HBox alignment="CENTER" fillHeight="false" maxHeight="-Infinity" prefWidth="800.0" spacing="16.0" styleClass="background_top" stylesheets="@../style/style.css">
+         <children>
+            <Pane prefHeight="65.0" prefWidth="157.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="75.0" fitWidth="102.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/logo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <HBox alignment="CENTER" prefHeight="35.0" prefWidth="79.0" stylesheets="@../style/style.css" HBox.hgrow="ALWAYS">
+               <children>
+                  <FontAwesomeIcon fill="#aca3a3" glyphName="SEARCH" size="1.5em">
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <TextField fx:id="search" prefHeight="34.0" prefWidth="83.0" promptText="Search" styleClass="background_transparent" stylesheets="@../style/style.css" HBox.hgrow="ALWAYS" />
+               </children>
+               <HBox.margin>
+                  <Insets bottom="20.0" top="20.0" />
+               </HBox.margin>
+               <styleClass>
+                  <String fx:value="background_white" />
+                  <String fx:value="radius" />
+               </styleClass>
+            </HBox>
+            <Circle fx:id="imageUser" fill="WHITE" onMouseClicked="#DroppedList" radius="30.0" stroke="BLACK" strokeType="INSIDE" HBox.hgrow="ALWAYS" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </padding>
+      </HBox>
+   </top>
+   <HBox.margin>
+      <Insets />
+   </HBox.margin>
+   <left>
+      <Pane nodeOrientation="LEFT_TO_RIGHT" prefHeight="397.0" prefWidth="274.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="55.0" prefWidth="273.0">
+               <children>
+                  <AnchorPane prefHeight="55.0" prefWidth="279.0" styleClass="background_second" stylesheets="@../style/style.css" HBox.hgrow="ALWAYS">
+                     <children>
+                        <JFXButton ellipsisString="Chats" layoutX="4.0" layoutY="11.0" prefHeight="30.0" prefWidth="65.0" styleClass="background_transparent" stylesheets="@../style/style.css" text="Chats" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI" size="12.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton ellipsisString="Status" layoutX="88.0" layoutY="11.0" prefHeight="30.0" prefWidth="65.0" styleClass="background_transparent" stylesheets="@../style/style.css" text="Status" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI" size="12.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton ellipsisString="Calls" layoutX="176.0" layoutY="11.0" prefHeight="30.0" prefWidth="65.0" styleClass="background_transparent" stylesheets="@../style/style.css" text="Calls" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI" size="12.0" />
+                           </font>
+                        </JFXButton>
+                        <FontAwesomeIcon fill="WHITE" glyphName="ELLIPSIS_V" layoutX="252.0" layoutY="32.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <VBox fx:id="leftVBox" layoutX="-1.0" layoutY="55.0" prefHeight="343.0" prefWidth="275.0" spacing="20.0">
+               <padding>
+                  <Insets left="6.0" top="6.0" />
+               </padding></VBox>
+         </children>
+      </Pane>
+   </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+      
+                  <ListView fx:id="listView" nodeOrientation="LEFT_TO_RIGHT" prefHeight="382.0" prefWidth="384.0" VBox.vgrow="ALWAYS" />
+            <HBox prefHeight="57.0" prefWidth="384.0" spacing="5.0" style="-fx-background-color: #E9E9E9;;">
+               <children>
+                  <FontAwesomeIcon fill="#4a4343" glyphName="PAPERCLIP" size="2em" tabSize="20" fx:id="attachFile" onMouseClicked="#handleFile">
+                     <HBox.margin>
+                        <Insets left="4.0" top="14.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <HBox alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="333.0" spacing="10.0" style="-fx-background-color: #BAD8E9;" stylesheets="@../style/style.css" HBox.hgrow="ALWAYS">
+                     <children>
+                        <TextField fx:id="textfield" onKeyPressed="#ChangeIcon" prefHeight="31.0" prefWidth="255.0" promptText="Taper un message" styleClass="background_transparent" stylesheets="@../style/style.css" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="Segoe UI" size="15.0" />
+                           </font>
+                        </TextField>
+                        <FontAwesomeIcon fx:id="iconEnvoyer" fill="#4a4343" glyphName="MICROPHONE" onMouseClicked="#sendMessage" size="2em" tabSize="20" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <styleClass>
+                        <String fx:value="radius" />
+                        <String fx:value="background_white" />
+                     </styleClass>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

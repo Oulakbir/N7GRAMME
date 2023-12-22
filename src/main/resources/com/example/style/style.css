@@ -1,0 +1,26 @@
+.background_top{
+    -fx-background-color:  #008AD8;
+}
+.background_second{
+    -fx-background-color:  #81BADB;
+}
+
+.background_transparent{
+    -fx-background-color:  transparent;
+}
+.background_white{
+    -fx-background-color: white;
+}
+.radius{
+ -fx-background-radius: 11px;
+}
+.label_style {
+    -fx-border-radius: 15px;
+    -fx-background-color: #D9D9D9;
+}
+#attacheFile{
+    -fx-cursor: pointer;
+}
+#iconEnvoyer{
+    -fx-cursor:pointer;
+}

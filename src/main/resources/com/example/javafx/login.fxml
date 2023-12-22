@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #b3caff;" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.LoginController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="91.0" prefWidth="600.0">
+         <children>
+            <Circle fx:id="circle" fill="WHITE" radius="44.0" stroke="BLACK" strokeType="INSIDE" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="91.0" prefWidth="600.0" spacing="10.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="57.0" prefWidth="268.0" stylesheets="@../style/style.css">
+               <children>
+                  <TextField fx:id="email" prefHeight="19.0" prefWidth="217.0" promptText="your email" styleClass="background_transparent" stylesheets="@../style/style.css" />
+                  <FontAwesomeIcon fill="GREY" glyphName="ENVELOPE" size="2em" tabSize="20" wrappingWidth="26.666669845581055" />
+               </children>
+               <styleClass>
+                  <String fx:value="radius" />
+                  <String fx:value="background_white" />
+               </styleClass>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="91.0" prefWidth="600.0" spacing="10.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="51.0" prefWidth="257.0" stylesheets="@../style/style.css">
+               <children>
+                  <TextField fx:id="password" prefHeight="19.0" prefWidth="217.0" promptText="your password" styleClass="background_transparent" stylesheets="@../style/style.css" />
+                  <FontAwesomeIcon fill="GREY" glyphName="LOCK" size="2em" tabSize="20" wrappingWidth="26.666669845581055" />
+               </children>
+               <styleClass>
+                  <String fx:value="radius" />
+                  <String fx:value="background_white" />
+               </styleClass>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="77.0" prefWidth="600.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#login" prefHeight="36.0" prefWidth="141.0" stylesheets="@../style/style.css" text="login">
+               <styleClass>
+                  <String fx:value="radius" />
+                  <String fx:value="background_top" />
+               </styleClass>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>
