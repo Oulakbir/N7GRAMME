@@ -1,5 +1,8 @@
 package com.example.javafx.dao.entities;
 
+import com.example.javafx.MessageType;
+import com.example.javafx.Status;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
@@ -7,6 +10,40 @@ import java.util.Date;
 public class Message implements Serializable {
 
     private String message_id;
+    private MessageType type;
+
+    public MessageType getType() {
+        return type;
+    }
+
+    public void setType(MessageType type) {
+        this.type = type;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public byte[] getVoiceMsg() {
+        return voiceMsg;
+    }
+
+    public void setVoiceMsg(byte[] voiceMsg) {
+        this.voiceMsg = voiceMsg;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     private String content;
     private String sender;
     private String receiver;
@@ -14,9 +51,10 @@ public class Message implements Serializable {
     private Date date;
     private String fileName;
     private File attachedFile;
-
+    private Status status;
+    private byte[] voiceMsg;
     private byte[] fileContent;
-
+    private String picture;
     public File getAttachedFile() {
         return attachedFile;
     }

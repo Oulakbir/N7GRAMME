@@ -1,5 +1,7 @@
 package com.example.javafx.dao.entities;
 
+import com.example.javafx.Status;
+
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -12,6 +14,15 @@ public class User implements Serializable {
     private String[] contacts;
     private String image;
     private byte[] imageData;
+    Status status;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public byte[] getImageData() {
         return imageData;
