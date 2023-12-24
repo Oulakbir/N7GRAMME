@@ -30,7 +30,7 @@ public final class UserSession {
         currentContact = currentCont;
     }
 
-    public void cleanUserSession() {
+    public static void cleanUserSession() {
         user = null;// or null
     }
  public User getCurrentUser(){

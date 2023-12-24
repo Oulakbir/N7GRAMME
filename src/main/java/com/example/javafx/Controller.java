@@ -3,10 +3,9 @@ import com.example.javafx.dao.MessageDaoImpl;
 import com.example.javafx.dao.UserDaoImpl;
 import com.example.javafx.dao.entities.Message;
 import com.example.javafx.dao.entities.User;
-import com.example.javafx.service.IMessageService;
-import com.example.javafx.service.IServiceMessageImpl;
-import com.example.javafx.service.IUserService;
-import com.example.javafx.service.IserviceUserImpl;
+import com.example.javafx.service.*;
+import com.example.javafx.util.VoiceRecorder;
+import com.example.javafx.util.VoiceUtil;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -15,12 +14,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -29,12 +30,16 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import com.example.javafx.UserSession;
+
+import javax.swing.text.html.ImageView;
 import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+
+import static com.example.javafx.MessageType.CONNECTED;
 
 
 public class Controller implements Initializable {
@@ -48,7 +53,12 @@ public class Controller implements Initializable {
     ObservableList<String> listModal = FXCollections.observableArrayList();
     @FXML
     private ListView<String> listView ;
-
+    private final String HASCONNECTED = "has connected";
+    private FontAwesomeIcon microphoneActiveIcon = new FontAwesomeIcon();
+    private FontAwesomeIcon microphoneInactiveIcon = new FontAwesomeIcon();
+        /*
+*      microphoneActiveIcon.setGlyphName("SEND");
+     microphoneInactiveIcon.setGlyphName("MICROPHONE");*/
     @FXML
     private FontAwesomeIcon iconEnvoyer;
     @FXML
@@ -57,11 +67,15 @@ public class Controller implements Initializable {
     private TextField textfield;
     @FXML
     private VBox leftVBox;
-    private User user;
+    private static User user;
     private IMessageService messageService;
     private UserSession userSession;
     private ObservableList<String> messages = FXCollections.observableArrayList();
 
+    private static ObjectOutputStream oos;
+    private InputStream is;
+    private ObjectInputStream input;
+    private OutputStream outputStream;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -115,31 +129,7 @@ public class Controller implements Initializable {
        String content=textfield.getText();
         sendMessage(event, content, null); // Call the version with default values
     }
-    public void sendMessage(MouseEvent event, String content, File attachedFile) {
-        //String content = textfield.getText();
-        String messageContent = (content != null) ? content : "";
-        loadMessages();
-        if (!messageContent.isEmpty()) {
-            String senderId = this.userSession.getCurrentUser().getUser_id();
-            String receiverId = UserSession.getCurrentContact();
-            Message message = new Message(content, senderId, receiverId, false, new Date());
-            if (content instanceof String) {
-                messageService.addMessage(message);
-                textfield.clear();
-                loadMessages();
-            }else {
-                if (attachedFile != null) {
-                    // Set the attached file and its name
-                    message.setAttachedFile(attachedFile);
-                    message.setFileName(attachedFile.getName());
-                }
-                messageService.addMessage(message);
-                textfield.clear();
-                loadMessages();
-            }
 
-        }
-    }
 
     void loadMessages() {
         // Clear existing messages
@@ -154,29 +144,6 @@ public class Controller implements Initializable {
             messages.add(message.getContent());
         }
     }
-  /*  @FXML
-    void changeImage(MouseEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.gif", "*.jpeg"),
-                new FileChooser.ExtensionFilter("Tous les fichiers", "*.*")
-        );
-
-        File selectedFile = fileChooser.showOpenDialog(null);
-
-        if (selectedFile != null) {
-            try {
-
-                Image newImage = new Image(selectedFile.toURI().toString());
-                circle.setFill(new ImagePattern(newImage));
-            } catch (Exception e) {
-                // Gérer les erreurs lors du chargement de l'image
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement de l'image.", ButtonType.OK);
-                alert.showAndWait();
-            }
-        }
-    }*/
-
     @FXML
     void DroppedList(MouseEvent event) {
             ContextMenu contextMenu = new ContextMenu();
@@ -234,19 +201,6 @@ public class Controller implements Initializable {
 
     }
 
-
-    public void EnvoyerMsg(MouseEvent  event) {
-        String message = textfield.getText();
-        pw.println(message);
-        textfield.clear();
-
-        /*Message msg=new Message();
-        msg.setContent(message);
-        msg.setSender("rachida");
-        msg.setReceiver("Aafaf");
-
-        service.addMessage(msg);*/
-    }
 
     public void getMessages(String idReciever, String idSender){
         List<Message> messages = service.getMessageByUserId(idReciever, idSender);
@@ -353,5 +307,106 @@ public class Controller implements Initializable {
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());
         }
     }
+    public void sendMessage(MouseEvent event, String content, File attachedFile) {
+        //String content = textfield.getText();
+        String messageContent = (content != null) ? content : "";
+        loadMessages();
+        if (!messageContent.isEmpty()) {
+            String senderId = this.userSession.getCurrentUser().getUser_id();
+            String receiverId = UserSession.getCurrentContact();
+            Message message = new Message(content, senderId, receiverId, false, new Date());
+            if (content instanceof String) {
+                messageService.addMessage(message);
+                textfield.clear();
+                loadMessages();
+            }else {
+                if (attachedFile != null) {
+                    // Set the attached file and its name
+                    message.setAttachedFile(attachedFile);
+                    message.setFileName(attachedFile.getName());
+                }
+                messageService.addMessage(message);
+                textfield.clear();
+                loadMessages();
+            }
 
+        }
+    }
+    public void send(String msg) throws IOException {
+        Message createMessage = new Message();
+        createMessage.setSender(user.getUser_id());
+        createMessage.setType(MessageType.USER);
+        createMessage.setStatus(Status.AWAY);
+        createMessage.setContent(msg);
+        createMessage.setPicture(user.getImage());
+        oos.writeObject(createMessage);
+        oos.flush();
+    }
+
+    public void recordVoiceMessage() throws IOException {
+        if (VoiceUtil.isRecording()) {
+            Platform.runLater(() -> {
+                        iconEnvoyer.setGlyphName(microphoneInactiveIcon.toString());
+                    }
+            );
+            VoiceUtil.setRecording(false);
+        } else {
+            Platform.runLater(() -> {
+                        iconEnvoyer.setGlyphName(microphoneActiveIcon.toString());
+
+                    }
+            );
+            VoiceRecorder.captureAudio();
+        }
+    }
+    public static void sendVoiceMessage(byte[] audio) throws IOException {
+        Message createMessage = new Message();
+        createMessage.setSender(user.getUser_id());
+        createMessage.setType(MessageType.VOICE);
+        createMessage.setStatus(Status.AWAY);
+        createMessage.setVoiceMsg(audio);
+        createMessage.setPicture(user.getImage());
+        oos.writeObject(createMessage);
+        oos.flush();
+    }
+
+
+    public void sendStatusUpdate(Status status) throws IOException {
+        Message createMessage = new Message();
+        createMessage.setSender(user.getUser_id());
+        createMessage.setType(MessageType.STATUS);
+        createMessage.setStatus(status);
+        createMessage.setPicture(user.getImage());
+        oos.writeObject(createMessage);
+        oos.flush();
+    }
+
+    public void connect() throws IOException {
+        Message createMessage = new Message();
+        createMessage.setSender(user.getNom());
+        createMessage.setType(CONNECTED);
+        createMessage.setContent(HASCONNECTED);
+        createMessage.setPicture(user.getImage());
+        oos.writeObject(createMessage);
+    }
+
+    public void logoutScene() {
+        UserSession.cleanUserSession();
+        Platform.runLater(() -> {
+            FXMLLoader fmxlLoader = new FXMLLoader(getClass().getResource("/javafx/Login.fxml"));
+            Parent window = null;
+            try {
+                window = (Pane) fmxlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Stage stage = Application.getPrimaryStage();
+            Scene scene = new Scene(window);
+            stage.setMaxWidth(350);
+            stage.setMaxHeight(420);
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+        });
+    }
 }
