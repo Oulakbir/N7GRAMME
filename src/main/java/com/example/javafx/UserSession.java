@@ -7,7 +7,7 @@ public final class UserSession {
     private static UserSession instance;
     private static String currentContact;
 
-    private User user;
+    private static User user;
 
     private UserSession(User user) {
         this.user = user;

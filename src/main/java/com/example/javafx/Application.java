@@ -16,9 +16,8 @@ public class Application extends javafx.application.Application {
         primaryStageObj =stage;
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login.fxml"));
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.getIcons().add(new Image(getClass().getClassLoader().getResource("img/logo.png").toString()));
-        Scene scene = new Scene(fxmlLoader.load(), 700, 500);
-        stage.setResizable(false);
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        //stage.setResizable(false);
         stage.setTitle("N7gramme!");
         stage.setScene(scene);
         stage.show();

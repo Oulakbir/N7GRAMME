@@ -409,4 +409,12 @@ public class Controller implements Initializable {
             stage.centerOnScreen();
         });
     }
+
+    public void updateUser(ActionEvent actionEvent) {
+        System.out.println("update user methode");
+    }
+
+    public void closeModal(ActionEvent actionEvent) {
+        System.out.println("close modal methode");
+    }
 }

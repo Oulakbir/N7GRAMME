@@ -32,7 +32,11 @@
             <artifactId>javafx-fxml</artifactId>
             <version>17.0.6</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.tokbox</groupId>
+            <artifactId>opentok-server-sdk</artifactId>
+            <version>4.13.1</version>
+        </dependency>
         <dependency>
             <groupId>com.tianscar.javasound</groupId>
             <artifactId>javasound-core</artifactId>
